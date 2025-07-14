@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - PartnerIntel</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --background-color: #f7f8fa;
+            --card-background: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --danger-color: #e74c3c;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-primary);
+        }
+        .admin-container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .admin-header h1 { font-size: 1.75rem; margin: 0; }
+        a.view-dashboard-link { text-decoration: none; color: var(--primary-color); font-weight: 500; }
+        .admin-section { background-color: var(--card-background); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .admin-section h2 { font-size: 1.25rem; margin-top: 0; margin-bottom: 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+        input[type="text"], select { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; box-sizing: border-box; font-family: var(--font-family); }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .submit-button { padding: 0.85rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; background-color: var(--primary-color); color: white; transition: background-color 0.2s; }
+        .submit-button:hover { background-color: #3a82d2; }
+        .partner-table { width: 100%; border-collapse: collapse; }
+        .partner-table th, .partner-table td { text-align: left; padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        .partner-table th { font-size: 0.875rem; text-transform: uppercase; color: var(--text-secondary); }
+        .partner-table td { vertical-align: middle; }
+        .partner-table .actions { display: flex; gap: 0.75rem; }
+        .action-button { padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background-color: transparent; font-weight: 500; cursor: pointer; }
+        .action-button.delete { color: var(--danger-color); border-color: var(--danger-color); }
+        .action-button.delete:hover { background-color: var(--danger-color); color: white; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>Admin Panel</h1>
+            <a href="#" class="view-dashboard-link">View Main Dashboard →</a>
+        </header>
+
+        <section class="admin-section">
+            <h2>Add New Partner</h2>
+            <form class="add-partner-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="partner-name">Partner Name</label>
+                        <input type="text" id="partner-name" placeholder="e.g., WP Engine">
+                    </div>
+                    <div class="form-group">
+                        <label for="assign-manager">Assign to Manager</label>
+                        <select id="assign-manager">
+                            <option value="1">Sarah Jones</option>
+                            <option value="2">Mike Williams</option>
+                            <option value="3">Jessica Chen</option>
+                            </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="partner-website">Website URL</label>
+                        <input type="text" id="partner-website" placeholder="https://wpengine.com">
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">Add Partner to Tracker</button>
+            </form>
+        </section>
+
+        <section class="admin-section">
+            <h2>Currently Tracked Partners</h2>
+            <table class="partner-table">
+                <thead>
+                    <tr>
+                        <th>Partner Name</th>
+                        <th>Assigned To</th> <th>Website</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Stripe</td>
+                        <td>Sarah Jones</td> <td>stripe.com</td>
+                        <td class="actions">
+                            <button class="action-button edit">Edit</button>
+                            <button class="action-button delete">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>HubSpot</td>
+                        <td>Mike Williams</td> <td>hubspot.com</td>
+                        <td class="actions">
+                            <button class="action-button edit">Edit</button>
+                            <button class="action-button delete">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Notion</td>
+                        <td>Jessica Chen</td> <td>notion.so</td>
+                        <td class="actions">
+                            <button class="action-button edit">Edit</button>
+                            <button class="action-button delete">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="admin-section">
+            <h2>User Management</h2>
+            <table class="partner-table">
+                 <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                 <tbody>
+                    <tr>
+                        <td>Sarah Jones</td>
+                        <td>sarah.j@example.com</td>
+                        <td class="actions"><button class="action-button delete">Remove</button></td>
+                    </tr>
+                     <tr>
+                        <td>Mike Williams</td>
+                        <td>mike.w@example.com</td>
+                        <td class="actions"><button class="action-button delete">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            </section>
+    </div>
+</body>
+</html>

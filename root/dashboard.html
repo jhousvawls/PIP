@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Intelligence Dashboard</title>
+    <style>
+        /* --- Core Styles & Variables --- */
+        :root {
+            --primary-color: #4A90E2; /* A friendly, professional blue */
+            --background-color: #f7f8fa; /* Light grey background */
+            --card-background: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #999999;
+            --border-color: #e0e0e0;
+            --success-color: #2ECC71;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        /* --- Header & Navigation --- */
+        .header {
+            background-color: var(--card-background);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .header .search-bar {
+            width: 40%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .header .user-profile {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* --- Main Content --- */
+        .main-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .feed-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Insight Card --- */
+        .insight-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .insight-card:hover {
+            box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-header .partner-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 1rem;
+            object-fit: contain;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header .partner-info {
+            flex-grow: 1;
+        }
+
+        .card-header .partner-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .card-header .timestamp {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .card-body .insight-headline {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body .ai-summary {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-footer {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .action-button.primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .action-button.primary:hover {
+            background-color: #3a82d2;
+        }
+
+        .action-button.secondary {
+            background-color: #eef0f2;
+            color: var(--text-secondary);
+        }
+        .action-button.secondary:hover {
+            background-color: #e0e4e8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">PartnerIntel</div>
+        <input type="search" class="search-bar" placeholder="Search partners or insights...">
+        <div class="user-profile">JD</div>
+    </header>
+
+    <main class="main-container">
+        <h1 class="feed-title">Today's Intelligence Briefing</h1>
+
+        <article class="insight-card">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/stripe.com" alt="Stripe Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">Stripe</div>
+                    <div class="timestamp">2 hours ago</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">Stripe acquires payments firm PayStack to expand into Africa.</h2>
+                <p class="ai-summary">This acquisition signals a major strategic push into emerging markets. It could present an opportunity to pitch our joint solution for enterprise clients moving into the region.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary">📧 Draft Email</button>
+                <button class="action-button secondary">✓ Create Task</button>
+            </div>
+        </article>
+
+        <article class="insight-card">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/hubspot.com" alt="HubSpot Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">HubSpot</div>
+                    <div class="timestamp">Yesterday</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">HubSpot launches a new AI-powered Content Assistant for Marketing Hub.</h2>
+                <p class="ai-summary">Their new feature directly competes with a product from our other partner, Jasper. We should monitor customer feedback and ensure our integration story with HubSpot remains strong.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary">📧 Draft Email</button>
+                <button class="action-button secondary">✓ Create Task</button>
+            </div>
+        </article>
+
+         <article class="insight-card">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/notion.so" alt="Notion Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">Notion</div>
+                    <div class="timestamp">Yesterday</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">Notion appoints a new Chief Revenue Officer, formerly from Salesforce.</h2>
+                <p class="ai-summary">The new CRO has a strong enterprise background. This is a perfect trigger event to re-engage our executive champion and discuss expanding our partnership to larger teams.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary">📧 Draft Email</button>
+                <button class="action-button secondary">✓ Create Task</button>
+            </div>
+        </article>
+
+    </main>
+
+</body>
+</html>
