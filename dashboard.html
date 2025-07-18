@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Intelligence Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --background-color: #f7f8fa;
+            --card-background: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: #999999;
+            --border-color: #e0e0e0;
+            --success-color: #27ae60; /* For Synergy */
+            --warning-color: #f39c12; /* For Customer Match */
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body { font-family: var(--font-family); background-color: var(--background-color); margin: 0; color: var(--text-primary); }
+        .header { background-color: var(--card-background); padding: 1rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .header .logo { font-size: 1.25rem; font-weight: 600; color: var(--primary-color); }
+        .header .search-bar { width: 40%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; }
+        .header .user-profile { width: 40px; height: 40px; background-color: var(--primary-color); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .main-container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .feed-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .insight-card { background-color: var(--card-background); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: box-shadow 0.2s ease-in-out; border-left-width: 5px; }
+        .insight-card:hover { box-shadow: 0 8px 12px rgba(0,0,0,0.08); }
+        .insight-card.standard { border-left-color: var(--border-color); }
+        .insight-card.synergy { border-left-color: var(--success-color); }
+        .insight-card.customer-match { border-left-color: var(--warning-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 1rem; }
+        .partner-logo { width: 40px; height: 40px; border-radius: 8px; margin-right: 1rem; object-fit: contain; border: 1px solid var(--border-color); background-color: white; }
+        .partner-info { flex-grow: 1; }
+        .partner-name { font-weight: 600; font-size: 1.1rem; }
+        .timestamp { font-size: 0.875rem; color: var(--text-light); }
+        .card-body .insight-headline { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .card-body .ai-summary { font-size: 1rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .action-button { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        .action-button.primary { background-color: var(--primary-color); color: white; }
+        .action-button.primary:hover { background-color: #3a82d2; }
+        .source-link { font-size: 0.9rem; color: var(--text-secondary); text-decoration: none; font-weight: 500;}
+        .source-link:hover { text-decoration: underline; }
+        .insight-type-badge { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 12px; color: white; text-transform: uppercase; }
+        .badge-synergy { background-color: var(--success-color); }
+        .badge-customer-match { background-color: var(--warning-color); }
+
+        /* --- Modal Styles --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-container { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h2 { margin: 0; font-size: 1.25rem; }
+        .modal-close-button { background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+        .email-field { margin-bottom: 1rem; }
+        .email-field label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .email-field input, .email-field textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: var(--font-family); box-sizing: border-box; }
+        .email-field textarea { height: 200px; resize: vertical; }
+        .modal-footer { margin-top: 1.5rem; text-align: right; }
+        .copy-button { padding: 0.75rem 1.5rem; border: 1px solid var(--primary-color); background-color: transparent; color: var(--primary-color); border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .copy-button:hover { background-color: #f0f8ff; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">PartnerIntel</div>
+        <input type="search" class="search-bar" placeholder="Search partners or insights...">
+        <div class="user-profile">JD</div>
+    </header>
+    <main class="main-container">
+        <h1 class="feed-title">Today's Intelligence Briefing</h1>
+
+        <!-- Insight Card 1: Synergy (Real News) -->
+        <article class="insight-card synergy">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/americaneagle.com" alt="Americaneagle.com Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">Americaneagle.com</div>
+                    <div class="timestamp">1 day ago</div>
+                </div>
+                <span class="insight-type-badge badge-synergy">Synergy</span>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">Americaneagle.com has been named WP Engine's Agency Partner of the Year 2025.</h2>
+                <p class="ai-summary">This is a major synergy signal. This award provides the perfect reason to connect with their leadership, celebrate the win, and discuss how we can deepen our joint go-to-market strategy for the upcoming year.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary draft-email-button">📧 Draft Email</button>
+                <a href="https://www.americaneagle.com/insights/news" target="_blank" class="source-link">View Source ↗</a>
+            </div>
+        </article>
+
+        <!-- Insight Card 2: Standard (Real News) -->
+        <article class="insight-card standard">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/lt.agency" alt="LT Agency Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">LT Agency (LaneTerralever)</div>
+                    <div class="timestamp">2 days ago</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">LaneTerralever announces move to new, larger headquarters and adds Lyft as a new client.</h2>
+                <p class="ai-summary">This partner is in a strong growth phase. Their move to a new office and acquisition of a major client like Lyft indicates they have momentum and expanding capabilities. It's a good time to check in on their evolving needs.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary draft-email-button">📧 Draft Email</button>
+                <a href="https://www.laneterralever.com/blog/laneterralever-new-clients-new-headquarters" target="_blank" class="source-link">View Source ↗</a>
+            </div>
+        </article>
+
+         <!-- Insight Card 3: Standard (Real News) -->
+         <article class="insight-card standard">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/bluetext.com" alt="Bluetext Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">Bluetext</div>
+                    <div class="timestamp">4 days ago</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">Bluetext publishes new blog post: "Automating Marketing Operations Without Losing the Human Touch."</h2>
+                <p class="ai-summary">This thought leadership piece on automation shows their focus on enterprise marketing trends. Sharing our own AI Personalization Suite info could be a relevant and valuable follow-up to their article.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary draft-email-button">📧 Draft Email</button>
+                <a href="https://bluetext.com/blog/" target="_blank" class="source-link">View Source ↗</a>
+            </div>
+        </article>
+        
+         <!-- Insight Card 4: Standard (Plausible News) -->
+         <article class="insight-card standard">
+            <div class="card-header">
+                <img src="https://logo.clearbit.com/takeoffnyc.com" alt="Takeoff NYC Logo" class="partner-logo">
+                <div class="partner-info">
+                    <div class="partner-name">Takeoff NYC</div>
+                    <div class="timestamp">5 days ago</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2 class="insight-headline">Takeoff NYC wins a Webby Award for "Best User Experience" for their work with a fashion retail client.</h2>
+                <p class="ai-summary">This award highlights their strength in UX design for e-commerce. This is a good opportunity to congratulate them and see if their award-winning expertise could be leveraged for our joint customers.</p>
+            </div>
+            <div class="card-footer">
+                <button class="action-button primary draft-email-button">📧 Draft Email</button>
+                <a href="https://www.webbyawards.com/winners/2025/" target="_blank" class="source-link">View Source ↗</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- Email Modal -->
+    <div class="modal-overlay" id="email-modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Draft Email</h2>
+                <button class="modal-close-button" id="modal-close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="email-field">
+                    <label for="email-to">To:</label>
+                    <input type="email" id="email-to" value="partner-contact@example.com">
+                </div>
+                <div class="email-field">
+                    <label for="email-subject">Subject:</label>
+                    <input type="text" id="email-subject">
+                </div>
+                <div class="email-field">
+                    <label for="email-body">Body:</label>
+                    <textarea id="email-body"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="copy-button" id="copy-email-button">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const draftButtons = document.querySelectorAll('.draft-email-button');
+            const modalOverlay = document.getElementById('email-modal-overlay');
+            const closeModalButton = document.getElementById('modal-close-button');
+            const emailSubjectEl = document.getElementById('email-subject');
+            const emailBodyEl = document.getElementById('email-body');
+            const copyButton = document.getElementById('copy-email-button');
+
+            draftButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Find the parent card to get context
+                    const card = button.closest('.insight-card');
+                    const partnerName = card.querySelector('.partner-name').textContent;
+                    const headline = card.querySelector('.insight-headline').textContent;
+                    const summary = card.querySelector('.ai-summary').textContent;
+
+                    // Generate email content
+                    let subject = `Quick thought re: ${partnerName}`;
+                    let body = `Hi [Partner Name],\n\nSaw the news about "${headline}" and wanted to reach out.\n\n${summary}\n\nLet me know if you're free for a quick chat next week to discuss.\n\nBest,\n[Your Name]`;
+
+                    // For synergy, make the subject more specific
+                    if (card.classList.contains('synergy')) {
+                        subject = `Congrats from WP Engine!`;
+                        body = `Hi Team at ${partnerName},\n\nHuge congrats on being named WP Engine's Agency Partner of the Year! We're all thrilled over here.\n\nWell deserved, and we're looking forward to another great year of partnership.\n\nBest,\n[Your Name]`;
+                    }
+                    
+                    // Populate and show the modal
+                    emailSubjectEl.value = subject;
+                    emailBodyEl.value = body;
+                    modalOverlay.style.display = 'flex';
+                });
+            });
+
+            // --- Modal Closing Logic ---
+            const closeModal = () => {
+                modalOverlay.style.display = 'none';
+            };
+
+            closeModalButton.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                // Only close if the overlay itself is clicked, not the container
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            // --- Copy to Clipboard Logic ---
+            copyButton.addEventListener('click', () => {
+                const fullEmailText = `Subject: ${emailSubjectEl.value}\n\n${emailBodyEl.value}`;
+                
+                // Use a temporary textarea to copy to clipboard
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = fullEmailText;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+
+                // Provide user feedback
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy to Clipboard';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
